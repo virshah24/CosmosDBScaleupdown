@@ -5,7 +5,9 @@ PowerShell based Azure Function to help automate CosmosDB scale up/down combinin
 
 ![Build passing](https://img.shields.io/badge/build-passing-brightgreen.svg) ![Code coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg) ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-This PowerShell based Azure Functions project is designed to set throughput on Cosmos DB resources based on Azure Monitoring alerts on 'Total Requests' dimention triggering 429 throttling error specified in aggregated last X minutes. The triggers are written in PowerShell and call Az.CosmosDB cmdlets to set the throughput property on resources in Cosmos DB. Resources to scale up and down are defined in a `resources.json` file within each HTTPTrigger bindings defined in `function.json`. The ScaleUpCosmos is configured to increment 100 RU/s everytime with 600 RU/s Max desired (configurable to different values). The ScaleDownCosmos is configured to set to minimum 400 RU/s (configurable to different value)
+This PowerShell based Azure Functions project is designed to set throughput on Cosmos DB resources based on Azure Monitoring alerts on 'Total Requests' dimention triggering 429 throttling error specified in aggregated last X minutes. The triggers are written in PowerShell and call Az.CosmosDB cmdlets to set the throughput property on resources in Cosmos DB. Resources to scale up and down are defined in a `resources.json` file within each HTTPTrigger bindings defined in `function.json`. 
+
+Currently, The ScaleUpCosmos is configured to increment 100 RU/s everytime with 600 RU/s maximum desired throughput (configurable to different values). The ScaleDownCosmos is configured to set to minimum 400 RU/s (configurable to different value)
 
 ## Key things to know
 
