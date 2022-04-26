@@ -1,26 +1,16 @@
 # CosmosDBScaleupdown
 PowerShell based Azure Function to help automate CosmosDB scale up/down combining with monitoring alerts.
 
----
-page_type: sample
-languages:
-- powershell
-products:
-- Azure Cosmos DB
-description: "Scale Cosmos DB resources up-down using Azure Functions Timer Trigger"
-urlFragment: "azure-cosmos-throughput-scheduler"
----
-
-# Scale Cosmos DB using Azure Functions Timer Trigger
+# Scale Cosmos DB using Azure Functions & Monitoring Alerts
 
 ![Build passing](https://img.shields.io/badge/build-passing-brightgreen.svg) ![Code coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg) ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-This Azure Functions project is designed to set throughput on Cosmos DB resources twice a day using two Timer Triggers. The triggers are written in PowerShell and call Az.CosmosDB cmdlets to set the throughput property on resources in Cosmos DB. Resources to scale up and down are defined in a `resources.json` file within each Trigger with the schedule defined in `function.json`. The ScaleUpTrigger is configured to run at 8am UTC, Monday-Friday. The ScaleDownTrigger is configured to run at 6pm UTC Monday-Friday.
+This PowerShell based Azure Functions project is designed to set throughput on Cosmos DB resources based on Azure Monitoring alerts on 'Total Requests' dimention triggering 429 throttling error specified in aggregated last X minutes. The triggers are written in PowerShell and call Az.CosmosDB cmdlets to set the throughput property on resources in Cosmos DB. Resources to scale up and down are defined in a `resources.json` file within each HTTPTrigger bindings defined in `function.json`. The ScaleUpCosmos is configured to increment 100 RU/s everytime with 600 RU/s Max desired (configurable to different values). The ScaleDownCosmos is configured to set to minimum 400 RU/s (configurable to different value)
 
 ## Key things to know
 
 - When executing, the script will check the minimum throughput for the resource. If the throughput is set lower than the minimum allowed, the script will set the throughput at the minimum rather than throw an exception.
-- This sample cannot migrate between manual and autoscale throughput. (May do this in a future update). If the wrong type of throughput is specified it will report an error and skip over it.
+- This sample cannot migrate between manual and autoscale throughput. If the wrong type of throughput is specified it will report an error and skip over it.
 - If you set throughput on a resource that does not have throughput provisioned, it will report an error and skip over it.
 - This Azure Function connects to the Cosmos resources using MSI. You will need to create an identity for the app and grant it permissions to the Cosmos accounts to set throughput on. Details on how to configure MSI and set permissions is detailed below.
 
@@ -83,9 +73,14 @@ The example below demonstrates setting throughput on a database and a container 
 }
 ```
 
-## Schedule
+## Azure Minotoring Alerts
 
-Setting the schedule requires changing the "schedule" attribute in each Trigger's `function.json` to the desires cron expression. To learn more about cron expressions, see [NCRONTAB expressions](https://docs.microsoft.com/azure/azure-functions/functions-bindings-timer?tabs=csharp#ncrontab-expressions)
+Two different alerts (scale up & down) are defined based on Azure Monitoring alerts on 'Total Requests' dimention triggering 429 throttling error specified in aggregated last X minutes.
+![5.png](media/5.png)
+
+## Sample Output
+
+![6.png](media/6.png)
 
 ## Deploy
 
