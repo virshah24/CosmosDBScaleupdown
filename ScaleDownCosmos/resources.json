@@ -1,0 +1,13 @@
+{
+    "resources":
+    [     
+        {
+            "resourceGroupName": "CST-vshah",
+            "accountName": "cst-vshah",
+            "api": "sql",
+            "throughputType": "manual",
+            "resourceName": "db/data",
+            "throughputScaleDown": 400
+        }
+    ]
+}
