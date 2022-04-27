@@ -77,7 +77,7 @@ The example below demonstrates setting throughput on a database and a container 
 
 ## Azure Minotoring Alerts
 
-Two different alerts (scale up & down) are defined based on Azure Monitoring alerts on 'Total Requests' dimention triggering 429 throttling error specified in aggregated last X minutes.
+Two different Azure Monitoring alerts (scale up & down) are defined under desired CosmosDB Account; based on 'Total Requests' dimention triggering 429 throttling error specified in aggregated last X minutes.
 ![5.png](media/5.png)
 
 ## Sample Output
